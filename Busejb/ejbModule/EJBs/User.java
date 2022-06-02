@@ -1,4 +1,6 @@
 package EJBs;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Typed;
@@ -6,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,23 +26,27 @@ public class User {
    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id ;
+	private long user_id ;
 	
 	public long getId() {
-		return id;
+		return user_id;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.user_id = user_id;
 	}
 
+public List<Trip> usertrips;
 
 
-	@NotNull
+
+
+//private int usertripid;
+	
 	@Size (min=2,max=15)
 	private String username ;
 	
-	@NotNull
+	
 	@Size (min=2,max=50)
 	private String full_name ;
 	
@@ -68,7 +77,7 @@ public class User {
 
 
 
-	@NotNull
+	
 	
 	private String role ;
 
@@ -83,7 +92,22 @@ public class User {
 	public String sayHello() {
 		return "Hello";
 	}
+
+	public List<Trip> getUsertrips() {
+		return usertrips;
+	}
+
+	public void setUsertrips(Trip t) {
+		usertrips.add(t);
+	}
+
+	/*public int getUsertripid() {
+		return usertripid;
+	}
+
+	public void setUsertripid(int usertripid) {
+		this.usertripid = usertripid;
+	}*/
 	
 	
 }
-

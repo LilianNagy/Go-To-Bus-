@@ -1,11 +1,15 @@
 package EJBs;
 
+import java.util.Set;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Stateless
@@ -22,6 +26,24 @@ public class Station {
 	private String name ;
 	private String longitude;
 	private String latitude;
+	
+	
+	
+	
+	/*
+	
+	
+	@OneToMany(mappedBy="fromstation" ,fetch=FetchType.LAZY)
+	private Set<Trip> source;
+	@OneToMany(mappedBy="tostation",fetch=FetchType.LAZY)
+	private Set<Trip> destination;
+
+	*/
+	
+	
+	
+	
+	
 public int getId() {
 		return id;
 	}

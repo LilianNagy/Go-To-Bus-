@@ -1,18 +1,24 @@
 package service;
 
 
+import java.util.List;
+
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import EJBs.Station;
+import EJBs.Trip;
 import EJBs.User;
 //import org.jboss.security.auth.spi.Users.User;
 @Stateless
@@ -46,6 +52,12 @@ public class Myservice {
                          }
 	
 	}
+	
+	
+	
+
+	
+	
 	@POST
 	@Path("login")
 	public String login(User s){
@@ -63,16 +75,17 @@ public class Myservice {
 			resultoflogin= "login successfully";
 			
 		}
-		else if (dusername.equals(uname)){
+		
+		else if (dusername.equals(uname)) {
 			
 			resultoflogin= "login successfully";
 			
-		  }
+		}
 		
 		else {
 			
 			resultoflogin="login failed";
-		  }
+		}
 	
 		return resultoflogin;
 		
@@ -80,12 +93,12 @@ public class Myservice {
 		
 		
 	}
-	@GET
-	@Path("hello")
-	public String getMssg() {
-		User user=new User();
-		return user.sayHello();
-	}
+	
+	
+	
+
+
+
 	@POST
 	@Path("createstation")
 	public String Create_Station(Station s) {
@@ -95,7 +108,7 @@ public class Myservice {
 		{
 			
 			entitymanger.persist(s);
-			return "user added successfully";
+			return "station added successfully";
 
 		}
 		catch (Exception e) {
@@ -105,15 +118,79 @@ public class Myservice {
                          }
 		
 	}
-
+	
+	
+	
 	@GET
 	@Path("getstation/{id}")
 	public Station getStation(@PathParam("id") int id) {
 		return entitymanger.find(Station.class, id) ;
+	
+	
+	}
+	
+
+	
+
+	@POST
+	@Path("trip")
+	public String Create_Trip(Trip t) {
+		
+		
+		try
+		{   
+			/*Station t1 = (Station) entitymanger.find(Station.class, t.getTo_station());
+			
+			Station t2 = (Station) entitymanger.find(Station.class, t.getFrom_station());
+            t.setFromstation(t2);
+            t.setTostation(t1);*/
+          
+			entitymanger.persist(t);
+			return "trip added successfully";
+
+		}
+		catch (Exception e) {
+		
+				
+			throw new EJBException(e);
+                         }
+		
+	}
+	
+	
+	
+	@GET
+	@Path("gettrip/{id}")
+	public Trip gettrip(@PathParam("id") int Trip_id) {
+		return entitymanger.find(Trip.class, Trip_id) ;
 		
 		
 	
 	}
-
-
+	
+	
+	@POST
+	@Path("booktrip")
+	public String booktrip(Trip t , User u){
+		
+		
+		
+		u.usertrips.add(t);
+		
+		
+		return "Trip Booked successfully";
+		
+		
+	}
+	
+	
+	@GET
+	@Path("gettrip")
+	public List<User> searchTrip(){
+	Query query = entitymanger.createQuery("SELECT (u) from User u");
+	List<User> result = query.getResultList();
+	return result;
+	}
+	
+	
 }
